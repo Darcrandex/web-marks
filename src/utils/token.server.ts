@@ -25,6 +25,8 @@ export async function getUserIdFromToken(request: NextRequest): Promise<string |
   }
 
   try {
+    console.log('token', token)
+
     const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!)
     const userId = decodedToken.userId
 

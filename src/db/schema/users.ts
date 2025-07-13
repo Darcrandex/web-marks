@@ -9,12 +9,12 @@ export const users = pgTable(
     // 表字段定义
     id: uuid().primaryKey().defaultRandom(),
     name: text(),
-    email: text(),
+    email: text().notNull().unique(),
     password: text(),
     role: text(),
     config: jsonb('config').$type<Record<string, any>>().default({}),
-    createdAt: timestamp().defaultNow(),
-    updatedAt: timestamp().defaultNow(),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
   },
 )
 
