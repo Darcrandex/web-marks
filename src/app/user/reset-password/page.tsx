@@ -5,13 +5,20 @@
  */
 
 'use client'
-
 import { http } from '@/utils/http.client'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 export default function ResetPassword() {
+  return (
+    <Suspense>
+      <ResetPasswordContent />
+    </Suspense>
+  )
+}
+
+function ResetPasswordContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const sign = searchParams.get('sign')

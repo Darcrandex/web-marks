@@ -1,11 +1,14 @@
 import { db } from '@/db'
 import { users } from '@/db/schema/users'
-import { withAuth } from '@/lib/withAuth'
+import { getUserIdFromToken } from '@/utils/token.server'
 import { compare, hash } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const POST = withAuth(async (userId: string, req: NextRequest) => {
+export async function POST(req: NextRequest) {
+  const userId = await getUserIdFromToken(req)
+  if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+
   const { oldPassword, newPassword } = await req.json()
   const [user] = await db.select().from(users).where(eq(users.id, userId))
 
@@ -20,4 +23,4 @@ export const POST = withAuth(async (userId: string, req: NextRequest) => {
   const hashedPassword = await hash(newPassword, 10)
   await db.update(users).set({ password: hashedPassword }).where(eq(users.id, userId))
   return NextResponse.json({ message: 'password updated successfully' })
-})
+}
