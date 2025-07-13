@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+a {
+  color: #5156eb;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 4px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+button {
+  padding: 4px;
+  margin: 4px;
+  border-width: 1px;
+}
+
+input {
+  padding: 4px;
+  margin: 4px;
+  border: 1px solid black;
+}
