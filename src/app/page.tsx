@@ -7,8 +7,7 @@
 import { redirect } from 'next/navigation'
 
 async function getThemeId() {
-  const roll = Date.now() % 2 === 0
-  return roll ? 'sky' : 'def'
+  return 'def'
 }
 
 export default async function MainPage() {

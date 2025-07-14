@@ -2,6 +2,7 @@ import QueryProvider from '@/lib/QueryProvider'
 import type { Metadata } from 'next'
 import './globals.css'
 import AntdProvider from '@/lib/AntdProvider'
+import '@ant-design/v5-patch-for-react-19'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

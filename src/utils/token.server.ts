@@ -9,7 +9,7 @@ import { type NextRequest } from 'next/server'
 // 生成 token
 export async function genUserToken(userId: string) {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET!, {
-    expiresIn: '1h',
+    expiresIn: '7d', // 7 天过期
   })
 
   return token
@@ -19,14 +19,14 @@ export async function genUserToken(userId: string) {
 export async function getUserIdFromToken(request: NextRequest): Promise<string | null> {
   // 客户端请求需要添加 header.authorization = ${token}
 
-  const token = request.headers.get('authorization')
+  const headerToken = request.headers.get('authorization')
+  const cookieToken = request.cookies.get('auth_token')?.value
+  const token = headerToken || cookieToken
   if (!token) {
     return null
   }
 
   try {
-    console.log('token', token)
-
     const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!)
     const userId = decodedToken.userId
 
