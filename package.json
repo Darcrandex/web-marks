@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.2",
     "@neondatabase/serverless": "^1.0.0",
     "@tanstack/react-query": "^5.76.1",
     "@tanstack/react-query-next-experimental": "^5.76.1",
     "ahooks": "^3.9.0",
+    "antd": "^5.26.4",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
+    "cheerio": "^1.1.0",
     "crypto-js": "^4.2.0",
     "drizzle-orm": "^0.43.1",
     "es-toolkit": "^1.39.7",
