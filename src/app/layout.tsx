@@ -1,6 +1,7 @@
 import QueryProvider from '@/lib/QueryProvider'
 import type { Metadata } from 'next'
 import './globals.css'
+import AntdProvider from '@/lib/AntdProvider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <QueryProvider>
-        <body>{children}</body>
+        <AntdProvider>
+          <body>{children}</body>
+        </AntdProvider>
       </QueryProvider>
     </html>
   )

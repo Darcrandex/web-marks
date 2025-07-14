@@ -4,8 +4,11 @@
  * @author darcrand
  */
 
+import { Group } from '@/db/schema/groups'
 import { http } from '@/utils/http.client'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useReactive, useToggle } from 'ahooks'
+import { Button, Drawer, Form, Input } from 'antd'
 
 export default function GroupTable() {
   const { data: groups } = useQuery({
@@ -16,10 +19,23 @@ export default function GroupTable() {
     },
   })
 
-  const createMutation = useMutation({
-    mutationFn: async (newGroup: any) => {
-      const res = await http.post('/api/group', newGroup)
+  const [form] = Form.useForm()
+  const [openDrawer, { toggle: toggleDrawer }] = useToggle(false)
+
+  const submit = useMutation({
+    mutationFn: async (values: Group) => {
+      if (values.id) {
+        const res = await http.patch(`/api/group/${values.id}`, values)
+        return res
+      }
+
+      const res = await http.post('/api/group', values)
       return res
+    },
+
+    onSuccess() {
+      toggleDrawer()
+      form.resetFields()
     },
   })
 
@@ -27,7 +43,16 @@ export default function GroupTable() {
     <>
       <div>GroupTable</div>
 
-      <button onClick={() => createMutation.mutate({ name: 'New Group', sort: 0 })}>Create New Group</button>
+      <header>
+        <Button
+          onClick={() => {
+            form.resetFields()
+            toggleDrawer()
+          }}
+        >
+          Create
+        </Button>
+      </header>
 
       <ol className="list-disc list-inside">
         {groups?.map((group: any) => (
@@ -36,6 +61,18 @@ export default function GroupTable() {
           </li>
         ))}
       </ol>
+
+      <Drawer open={openDrawer} onClose={toggleDrawer} title="Create/Update Group">
+        <Form form={form} onFinish={submit.mutate}>
+          <Form.Item name="id" hidden>
+            <input />
+          </Form.Item>
+
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+        </Form>
+      </Drawer>
     </>
   )
 }

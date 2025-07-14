@@ -1,13 +1,13 @@
 /**
  * @name AntdProvider
- * @description 
+ * @description
  * @author darcrand
  */
 
-export default function AntdProvider() {
-  return (
-    <>
-      <div>AntdProvider</div>
-    </>
-  )
+'use client'
+import { AntdRegistry } from '@ant-design/nextjs-registry'
+import { PropsWithChildren } from 'react'
+
+export default function AntdProvider(props: PropsWithChildren) {
+  return <AntdRegistry>{props.children}</AntdRegistry>
 }
