@@ -4,14 +4,28 @@
  * @author darcrand
  */
 
+'use client'
+import { userService } from '@/services/user'
+import { useQuery } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 
-async function getThemeId() {
-  return 'def'
-}
+export default function MainPage() {
+  const { data, isPending } = useQuery({
+    queryKey: ['user', 'info'],
+    queryFn: async () => {
+      const res = await userService.info()
+      return res.data
+    },
+  })
 
-export default async function MainPage() {
-  const theme = await getThemeId()
+  if (isPending) {
+    return <div>Loading...</div>
+  }
 
-  redirect(`/${theme}`)
+  if (data) {
+    const themeId = data?.config?.themeId || 'def'
+    redirect(`/${themeId}`)
+  }
+
+  return null
 }

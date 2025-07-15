@@ -4,5 +4,8 @@ declare namespace API {
     params: Promise<Record<string, string>>
   }
 
-  interface User {}
+  interface Result<T = any> {
+    message: string
+    data?: T
+  }
 }

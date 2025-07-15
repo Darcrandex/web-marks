@@ -3,30 +3,21 @@
  * @author darcrand
  */
 
-"use client";
-import axios, { AxiosResponse } from "axios";
-import Qs from "qs";
+'use client'
+import axios, { AxiosResponse } from 'axios'
+import Qs from 'qs'
 
 export const http = axios.create({
   paramsSerializer: function (params) {
-    return Qs.stringify(params, { arrayFormat: "brackets" });
+    return Qs.stringify(params, { arrayFormat: 'brackets' })
   },
-});
-
-http.interceptors.request.use((config) => {
-  const authToken = localStorage.getItem("token");
-  if (authToken) {
-    config.headers["Authorization"] = authToken;
-  }
-
-  return config;
-});
+})
 
 http.interceptors.response.use(
   (response: AxiosResponse<any>) => {
-    return response;
+    return response
   },
   (error) => {
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)

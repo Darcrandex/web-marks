@@ -3,7 +3,6 @@ import { users } from '@/db/schema/users'
 import { genUserToken } from '@/utils/token.server'
 import bcrypt from 'bcryptjs'
 import { eq } from 'drizzle-orm'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -11,31 +10,24 @@ export async function POST(request: Request) {
 
   // 验证请求数据
   if (!email || !password) {
-    return NextResponse.json({ message: '请填写所有必需的字段' }, { status: 400 })
+    return NextResponse.json({ message: 'Please fill in all required fields' }, { status: 400 })
   }
   // 检查邮箱是否已存在
   const existingUsers = await db.select().from(users).where(eq(users.email, email))
 
   if (existingUsers.length === 0) {
-    return NextResponse.json({ message: '用户不存在' }, { status: 400 })
+    return NextResponse.json({ message: 'Invalid Email' }, { status: 400 })
   }
 
   const user = existingUsers[0]
   const isPasswordCorrect = user.password && (await bcrypt.compare(password, user.password))
 
   if (!isPasswordCorrect) {
-    return NextResponse.json({ message: '密码错误' }, { status: 400 })
+    return NextResponse.json({ message: 'Invalid Password' }, { status: 400 })
   }
 
   // 生成token
   const token = await genUserToken(user.id)
-  // 设置 cookie
-  const ck = await cookies()
-  ck.set('auth_token', token, {
-    httpOnly: true,
-    sameSite: 'strict',
-    maxAge: 60 * 60 * 24 * 7,
-  })
 
-  return NextResponse.json({ message: '登录成功', data: token }, { status: 200 })
+  return NextResponse.json({ message: 'Login Success', data: token }, { status: 200 })
 }

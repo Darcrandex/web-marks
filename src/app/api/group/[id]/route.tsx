@@ -1,7 +1,7 @@
 import { db } from '@/db'
 import { groups } from '@/db/schema/groups'
 import { getUserIdFromToken } from '@/utils/token.server'
-import { eq, and } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
 // get by id

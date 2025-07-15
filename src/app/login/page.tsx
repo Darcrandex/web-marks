@@ -5,70 +5,82 @@
 
 'use client'
 
-import { http } from '@/utils/http.client'
+import { message } from '@/components/GlobalAntdMessage'
+import { userService } from '@/services/user'
 import { useMutation } from '@tanstack/react-query'
+import { Button, Form, Input } from 'antd'
+import { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+const modes = ['signin', 'signup'] as const
+
 export default function Login() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+
+  const [form] = Form.useForm()
+  const [mode, setMode] = useState<(typeof modes)[number]>('signin')
 
   const { mutate: onSubmit, isPending } = useMutation({
-    mutationFn: async (type: 'login' | 'register') => {
-      const url = `/api/auth/${type}`
-      const res = await http.post(url, { email, password })
-
-      if (type === 'login') {
-        localStorage.setItem('token', res.data.data)
-        router.replace('/user/profile')
+    mutationFn: async (values: any) => {
+      if (mode === 'signin') {
+        await userService.login(values.email, values.password)
+        router.replace('/')
       } else {
-        alert('注册成功')
-        setEmail('')
-        setPassword('')
+        form.resetFields()
+        setMode('signin')
       }
     },
 
-    onError(err) {
-      alert(`登录失败 ${err.message}`)
+    onError(err: AxiosError<API.Result>) {
+      message.error(err.response?.data?.message || 'An error occurred during login')
     },
   })
 
   return (
     <>
-      <h1 className="m-4">登录</h1>
+      <section className="mx-auto my-4 w-sm rounded-2xl bg-white p-4 shadow-md">
+        <header className="mb-4 text-lg"></header>
 
-      <section className="flex flex-col gap-2 m-4">
-        <input
-          type="text"
-          placeholder="邮箱"
-          pattern="email"
-          maxLength={30}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="密码"
-          maxLength={30}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <Form form={form} onFinish={onSubmit} layout="vertical">
+          <Form.Item name="email" rules={[{ required: true, message: 'Please input your email' }]}>
+            <Input placeholder="email" allowClear maxLength={20} />
+          </Form.Item>
+
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password' }]}>
+            <Input.Password placeholder="password" maxLength={20} allowClear />
+          </Form.Item>
+
+          {mode === 'signin' && (
+            <div className="mb-6">
+              <Link href="/user/forget-password">forget password</Link>
+            </div>
+          )}
+
+          <Button block htmlType="submit" type="primary" loading={isPending} className="uppercase">
+            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+          </Button>
+
+          <footer className="mt-4 text-center text-gray-500">
+            {mode === 'signin' ? (
+              <p>
+                <span>Don't have an account?</span>
+                <Button type="link" onClick={() => setMode('signup')}>
+                  Sign Up
+                </Button>
+              </p>
+            ) : (
+              <p>
+                <span>Already have an account?</span>
+                <Button type="link" onClick={() => setMode('signin')}>
+                  Sign In
+                </Button>
+              </p>
+            )}
+          </footer>
+        </Form>
       </section>
-
-      <footer className="m-4 flex gap-2">
-        <button type="button" disabled={isPending} onClick={() => onSubmit('login')}>
-          登录
-        </button>
-
-        <button type="button" disabled={isPending} onClick={() => onSubmit('register')}>
-          注册
-        </button>
-
-        <Link href="/user/forget-password">忘记密码</Link>
-      </footer>
     </>
   )
 }

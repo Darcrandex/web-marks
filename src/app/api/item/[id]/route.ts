@@ -1,8 +1,8 @@
 import { db } from '@/db'
-import { getUserIdFromToken } from '@/utils/token.server'
-import { eq, and } from 'drizzle-orm'
-import { NextRequest, NextResponse } from 'next/server'
 import { Item, items } from '@/db/schema/items'
+import { getUserIdFromToken } from '@/utils/token.server'
+import { and, eq } from 'drizzle-orm'
+import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/item/:id
 export async function GET(request: NextRequest, ctx: API.NextRequestContext) {

@@ -7,7 +7,7 @@
 import { Group } from '@/db/schema/groups'
 import { http } from '@/utils/http.client'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useReactive, useToggle } from 'ahooks'
+import { useToggle } from 'ahooks'
 import { Button, Drawer, Form, Input } from 'antd'
 
 export default function GroupTable() {

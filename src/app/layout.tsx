@@ -1,8 +1,9 @@
+import GlobalAntdMessage from '@/components/GlobalAntdMessage'
+import AntdProvider from '@/lib/AntdProvider'
 import QueryProvider from '@/lib/QueryProvider'
+import '@ant-design/v5-patch-for-react-19'
 import type { Metadata } from 'next'
 import './globals.css'
-import AntdProvider from '@/lib/AntdProvider'
-import '@ant-design/v5-patch-for-react-19'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,11 +17,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <QueryProvider>
-        <AntdProvider>
-          <body>{children}</body>
-        </AntdProvider>
-      </QueryProvider>
+      <body>
+        <QueryProvider>
+          <AntdProvider>
+            {children}
+            <GlobalAntdMessage />
+          </AntdProvider>
+        </QueryProvider>
+      </body>
     </html>
   )
 }

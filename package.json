@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.23.0",
     "@ant-design/nextjs-registry": "^1.0.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@neondatabase/serverless": "^1.0.0",
@@ -19,16 +21,19 @@
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.1.0",
+    "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
     "drizzle-orm": "^0.43.1",
     "es-toolkit": "^1.39.7",
     "jsonwebtoken": "^9.0.2",
     "next": "15.3.2",
     "nodemailer": "^7.0.3",
+    "prettier": "^3.6.2",
     "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "resend": "^4.6.0"
+    "resend": "^4.6.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -43,6 +48,8 @@
     "drizzle-kit": "^0.31.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

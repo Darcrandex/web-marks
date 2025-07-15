@@ -7,6 +7,7 @@
 'use client'
 import { Group } from '@/db/schema/groups'
 import { Item } from '@/db/schema/items'
+import { userService } from '@/services/user'
 import { http } from '@/utils/http.client'
 import { useQuery } from '@tanstack/react-query'
 import { Avatar } from 'antd'
@@ -40,18 +41,18 @@ export default function ThemeDefault() {
 
   return (
     <>
-      <div>ThemeDefault</div>
+      <HeaderContent />
 
-      <ul>
+      <ul className="space-y-8">
         {list.map((g) => (
           <li key={g.id}>
-            <h3 className="font-bold text-center text-xl">{g.name}</h3>
+            <h3 className="text-center text-xl font-bold">{g.name}</h3>
 
-            <ul className="grid grid-cols-4 gap-4 rouded-lg">
+            <ul className="rouded-lg grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {g.items.map((i) => (
                 <li
                   key={i.id}
-                  className="flex items-center gap-2 m-4 rounded-lg p-4 border border-gray-200"
+                  className="m-4 flex items-center gap-2 rounded-lg border border-gray-200 p-4"
                   onClick={() => {
                     if (i.url) window.open(i.url, '_blank')
                   }}
@@ -68,6 +69,26 @@ export default function ThemeDefault() {
         ))}
       </ul>
     </>
+  )
+}
+
+function HeaderContent() {
+  const { data, isPending } = useQuery({
+    queryKey: ['user', 'info'],
+    queryFn: async () => {
+      const res = await userService.info()
+      return res.data
+    },
+  })
+
+  return (
+    <header className="flex items-center justify-between p-4">
+      <h1 className="text-2xl font-bold">Web Marks</h1>
+      <nav>
+        <Avatar>{data?.name}</Avatar>
+        <span>{data?.name}</span>
+      </nav>
+    </header>
   )
 }
 
