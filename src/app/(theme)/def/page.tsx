@@ -5,10 +5,9 @@
  */
 
 'use client'
-import { Group } from '@/db/schema/groups'
-import { Item } from '@/db/schema/items'
+import { groupService } from '@/services/group'
+import { itemService } from '@/services/item'
 import { userService } from '@/services/user'
-import { http } from '@/utils/http.client'
 import { useQuery } from '@tanstack/react-query'
 import { Avatar } from 'antd'
 import { useMemo } from 'react'
@@ -17,16 +16,16 @@ export default function ThemeDefault() {
   const { data: groups } = useQuery({
     queryKey: ['groups'],
     queryFn: async () => {
-      const res = await http.get<Group[]>('/api/group')
-      return res.data
+      const res = await groupService.list()
+      return res
     },
   })
 
   const { data: items } = useQuery({
     queryKey: ['items'],
     queryFn: async () => {
-      const res = await http.get<Item[]>('/api/item')
-      return res.data
+      const res = await itemService.list()
+      return res
     },
   })
 

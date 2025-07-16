@@ -1,0 +1,44 @@
+// 用于未登录时的数据展示
+
+import { Group } from '@/db/schema/groups'
+import { Item } from '@/db/schema/items'
+import { User } from '@/db/schema/users'
+
+export const GUEST_ID = 'guest'
+
+export const guestUserInfo: User = {
+  id: GUEST_ID,
+  email: 'guest@example.com',
+  name: 'Guest',
+  password: '',
+  role: 'guest',
+  config: { themeId: 'def' },
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}
+
+export const guestGroups: Group[] = [
+  {
+    id: 'group1',
+    name: 'my marks',
+    sort: 1,
+    userId: 'guest',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+]
+
+export const guestItems: Item[] = [
+  {
+    id: 'item1',
+    name: 'my first item',
+    url: 'https://example.com',
+    iconUrl: 'https://example.com/icon.png',
+    sort: 1,
+    userId: 'guest',
+    groupId: 'group1',
+    desc: 'This is my first item',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+]
