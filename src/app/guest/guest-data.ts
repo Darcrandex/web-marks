@@ -20,7 +20,7 @@ export const guestUserInfo: User = {
 export const guestGroups: Group[] = [
   {
     id: 'group1',
-    name: 'my marks',
+    name: 'Pop Marks',
     sort: 1,
     userId: 'guest',
     createdAt: new Date(),
@@ -32,8 +32,8 @@ export const guestItems: Item[] = [
   {
     id: 'item1',
     name: 'my first item',
-    url: 'https://example.com',
-    iconUrl: 'https://example.com/icon.png',
+    url: 'https://www.bilibili.com',
+    iconUrl: 'https://i0.hdslb.com/bfs/static/jinkela/long/images/favicon.ico',
     sort: 1,
     userId: 'guest',
     groupId: 'group1',

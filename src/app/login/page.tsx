@@ -40,46 +40,51 @@ export default function Login() {
 
   return (
     <>
-      <section className="mx-auto my-4 w-sm rounded-2xl bg-white p-4 shadow-md">
-        <header className="mb-4 text-lg"></header>
+      <section className="flex h-screen w-screen items-start justify-center">
+        <section className="mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4 shadow-md">
+          <header className="mb-4 space-x-2 text-lg">
+            <span>wecome to</span>
+            <span className="text-parimary font-bold">Web Marks</span>
+          </header>
 
-        <Form form={form} onFinish={onSubmit} layout="vertical">
-          <Form.Item name="email" rules={[{ required: true, message: 'Please input your email' }]}>
-            <Input placeholder="email" allowClear maxLength={20} />
-          </Form.Item>
+          <Form form={form} onFinish={onSubmit} layout="vertical">
+            <Form.Item name="email" rules={[{ required: true, message: 'Please input your email' }]}>
+              <Input placeholder="email" allowClear maxLength={20} />
+            </Form.Item>
 
-          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password' }]}>
-            <Input.Password placeholder="password" maxLength={20} allowClear />
-          </Form.Item>
+            <Form.Item name="password" rules={[{ required: true, message: 'Please input your password' }]}>
+              <Input.Password placeholder="password" maxLength={20} allowClear />
+            </Form.Item>
 
-          {mode === 'signin' && (
-            <div className="mb-6">
-              <Link href="/user/forget-password">forget password</Link>
-            </div>
-          )}
+            <Button block htmlType="submit" type="primary" loading={isPending} className="uppercase">
+              {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+            </Button>
 
-          <Button block htmlType="submit" type="primary" loading={isPending} className="uppercase">
-            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
-          </Button>
+            <footer className="mt-4 text-center text-gray-500">
+              {mode === 'signin' && (
+                <div className="text-center">
+                  <Link href="/user/forget-password">forget password</Link>
+                </div>
+              )}
 
-          <footer className="mt-4 text-center text-gray-500">
-            {mode === 'signin' ? (
-              <p>
-                <span>Don't have an account?</span>
-                <Button type="link" onClick={() => setMode('signup')}>
-                  Sign Up
-                </Button>
-              </p>
-            ) : (
-              <p>
-                <span>Already have an account?</span>
-                <Button type="link" onClick={() => setMode('signin')}>
-                  Sign In
-                </Button>
-              </p>
-            )}
-          </footer>
-        </Form>
+              {mode === 'signin' ? (
+                <p>
+                  <span>Don't have an account?</span>
+                  <Button type="link" onClick={() => setMode('signup')}>
+                    Sign Up
+                  </Button>
+                </p>
+              ) : (
+                <p>
+                  <span>Already have an account?</span>
+                  <Button type="link" onClick={() => setMode('signin')}>
+                    Sign In
+                  </Button>
+                </p>
+              )}
+            </footer>
+          </Form>
+        </section>
       </section>
     </>
   )

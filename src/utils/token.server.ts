@@ -29,6 +29,7 @@ export async function getUserIdFromToken(request: NextRequest): Promise<string |
 
   const headerToken = request.headers.get('authorization')
   const cookieToken = request.cookies.get('auth_token')?.value
+
   const token = headerToken || cookieToken
   if (!token) {
     return null

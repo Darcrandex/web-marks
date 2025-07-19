@@ -7,10 +7,11 @@
 'use client'
 import { userService } from '@/services/user'
 import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { redirect } from 'next/navigation'
 
 export default function MainPage() {
-  const { data, isPending } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ['user', 'info'],
     queryFn: async () => {
       const res = await userService.info()
@@ -20,6 +21,10 @@ export default function MainPage() {
 
   if (isPending) {
     return <div>Loading...</div>
+  }
+
+  if (error && error instanceof AxiosError && error.status === 401) {
+    redirect('/guest')
   }
 
   if (data) {

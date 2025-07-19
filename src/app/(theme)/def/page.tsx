@@ -72,7 +72,7 @@ export default function ThemeDefault() {
 }
 
 function HeaderContent() {
-  const { data, isPending } = useQuery({
+  const { data } = useQuery({
     queryKey: ['user', 'info'],
     queryFn: async () => {
       const res = await userService.info()
@@ -81,11 +81,11 @@ function HeaderContent() {
   })
 
   return (
-    <header className="flex items-center justify-between p-4">
+    <header className="flex items-center justify-between bg-white p-4 shadow">
       <h1 className="text-2xl font-bold">Web Marks</h1>
-      <nav>
-        <Avatar>{data?.name}</Avatar>
+      <nav className="flex items-center gap-2">
         <span>{data?.name}</span>
+        <Avatar>{data?.name}</Avatar>
       </nav>
     </header>
   )
