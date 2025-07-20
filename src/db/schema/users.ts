@@ -8,9 +8,10 @@ export const users = pgTable(
   {
     // 表字段定义
     id: uuid().primaryKey().defaultRandom(),
-    name: text(),
     email: text().notNull().unique(),
     password: text(),
+    name: text(),
+    avatar: text(),
     role: text(),
     config: jsonb('config').$type<Record<string, any>>().default({}),
     createdAt: timestamp('created_at').defaultNow(),

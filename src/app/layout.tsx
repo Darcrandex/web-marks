@@ -1,4 +1,5 @@
 import GlobalAntdMessage from '@/components/GlobalAntdMessage'
+import NextProgressBar from '@/components/NextProgressBar'
 import AntdProvider from '@/lib/AntdProvider'
 import QueryProvider from '@/lib/QueryProvider'
 import '@ant-design/v5-patch-for-react-19'
@@ -22,6 +23,7 @@ export default function RootLayout({
           <AntdProvider>
             {children}
             <GlobalAntdMessage />
+            <NextProgressBar />
           </AntdProvider>
         </QueryProvider>
       </body>

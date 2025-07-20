@@ -26,8 +26,8 @@ export default async function Guest() {
       <ul className="my-8 space-y-8">
         {list.map((g) => (
           <li key={g.id}>
-            <h3 className="text-center text-xl">
-              <span className="after:bg-parimary relative font-bold after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2">
+            <h3 className="my-4 text-center text-2xl font-bold">
+              <span className="after:bg-parimary relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2">
                 {g.name}
               </span>
             </h3>

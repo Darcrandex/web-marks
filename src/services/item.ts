@@ -6,4 +6,9 @@ export const itemService = {
     const res = await http.get<Item[]>('/api/item')
     return res.data
   },
+
+  getLogo: async (url: string) => {
+    const res = await http.get<string>('/api/item/logo', { params: { url } })
+    return res.data
+  },
 }

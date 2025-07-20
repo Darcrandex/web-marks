@@ -83,5 +83,5 @@ export async function GET(request: NextRequest) {
     logoUrl = new URL(logoUrl, targetUrl).href
   }
 
-  return NextResponse.json({ message: 'success', data: logoUrl })
+  return NextResponse.json(logoUrl)
 }
