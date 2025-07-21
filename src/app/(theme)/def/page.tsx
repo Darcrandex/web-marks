@@ -69,7 +69,7 @@ function HeaderContent() {
         <span className="text-xl text-gray-800">{userInfo?.name || 'no name'}</span>
         <i
           className="block h-12 w-12 rounded-full bg-gray-200"
-          style={{ backgroundImage: `url(${userInfo?.avatar})` }}
+          style={{ backgroundImage: userInfo?.avatar ? `url(${userInfo?.avatar})` : undefined }}
         />
 
         <div className="invisible absolute top-full right-0 z-10 opacity-0 transition-all group-hover/menu:visible group-hover/menu:opacity-100">
@@ -116,7 +116,7 @@ function ItemLogo(props: { data: Item; className?: string }) {
 
   return (
     <i
-      style={{ backgroundImage: `url(${logoUrl})` }}
+      style={{ backgroundImage: logoUrl ? `url(${logoUrl})` : undefined }}
       className={cls('h-12 w-12 rounded-full bg-gray-200 bg-cover', props.className)}
     />
   )
