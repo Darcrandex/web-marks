@@ -1,5 +1,5 @@
 /**
- * @description 独立封装 axios 请求工具
+ * @description 在 client-component 中使用 axios 请求工具
  * @author darcrand
  */
 

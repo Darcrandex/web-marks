@@ -13,7 +13,7 @@ export const userService = {
   },
 
   info: async () => {
-    const response = await http.get<API.Result<User>>('/api/auth/info')
-    return response.data
+    const response = await http.get<User>('/api/auth/info')
+    return response
   },
 }

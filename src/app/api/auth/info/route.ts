@@ -7,8 +7,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const userId = await getUserIdFromToken(req)
-  if (!userId) return NextResponse.json({ message: 'unauthorized' }, { status: 401 })
+  if (!userId) return NextResponse.json(null, { status: 401, statusText: 'Unauthorized' })
 
   const res = await db.select().from(users).where(eq(users.id, userId))
-  return NextResponse.json({ message: 'ok', data: omit(res[0], ['password']) })
+  return NextResponse.json(omit(res[0], ['password']))
 }

@@ -4,33 +4,27 @@
  * @author darcrand
  */
 
-'use client'
-import { userService } from '@/services/user'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+'use server'
+import { User } from '@/db/schema/users'
+import { http } from '@/utils/http.server'
 import { redirect } from 'next/navigation'
 
-export default function MainPage() {
-  const { data, isPending, error } = useQuery({
-    queryKey: ['user', 'info'],
-    queryFn: async () => {
-      const res = await userService.info()
-      return res.data
-    },
-  })
+async function getData() {
+  let themeId: string | undefined = undefined
 
-  if (isPending) {
-    return <div>Loading...</div>
+  try {
+    const { data } = await http.get<User>('/api/auth/info')
+    if (data) {
+      themeId = data?.config?.themeId || 'def'
+    }
+  } catch (error) {
+    console.log('Error fetching user info:', error)
   }
 
-  if (error && error instanceof AxiosError && error.status === 401) {
-    redirect('/guest')
-  }
+  return themeId
+}
 
-  if (data) {
-    const themeId = data?.config?.themeId || 'def'
-    redirect(`/${themeId}`)
-  }
-
-  return null
+export default async function RootPage() {
+  const themeId = await getData()
+  redirect(themeId || '/guest')
 }
