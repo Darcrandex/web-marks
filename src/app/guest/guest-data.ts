@@ -11,6 +11,7 @@ export const guestUserInfo: User = {
   email: 'guest@example.com',
   name: 'Guest',
   password: '',
+  avatar: '',
   role: 'guest',
   config: { themeId: 'def' },
   createdAt: new Date(),

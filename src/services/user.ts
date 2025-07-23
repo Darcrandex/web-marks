@@ -16,4 +16,9 @@ export const userService = {
     const response = await http.get<User>('/api/auth/info')
     return response
   },
+
+  updateProfile: async (user: Partial<User>) => {
+    const response = await http.put<API.Result>('/api/user', user)
+    return response.data
+  },
 }

@@ -4,21 +4,23 @@
  */
 
 'use client'
-import { User } from '@/db/schema/users'
-import { http } from '@/utils/http.client'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { ossService } from '@/services/oss'
+import { userService } from '@/services/user'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useRef } from 'react'
 
 export default function Profile() {
   const queryClient = useQueryClient()
   const router = useRouter()
 
   const { data: info, isPending } = useQuery({
-    queryKey: ['user-profile'],
+    queryKey: ['user'],
     queryFn: async () => {
-      const res = await http.get('/api/auth/info')
-      return res.data.data as User
+      const res = await userService.info()
+      return res.data
     },
   })
 
@@ -49,6 +51,70 @@ export default function Profile() {
       <section className="m-4">
         <pre>{JSON.stringify(info, null, 2)}</pre>
       </section>
+
+      <AvatarUpload />
+    </>
+  )
+}
+
+function AvatarUpload() {
+  const queryClient = useQueryClient()
+  const inputFileRef = useRef<HTMLInputElement>(null)
+
+  const { data: info } = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const res = await userService.info()
+      return res.data
+    },
+  })
+
+  const submitMutation = useMutation({
+    mutationFn: async () => {
+      if (!inputFileRef.current?.files) {
+        throw new Error('No file selected')
+      }
+
+      const file = inputFileRef.current.files[0]
+      const ext = file.name.split('.').pop()
+      const filename = `/avatar/${Date.now()}.${ext}` // 存放到指定的文件夹中
+
+      const res = await ossService.upload(filename, file)
+      const imageUrl = res.data
+
+      await userService.updateProfile({ avatar: imageUrl })
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      if (inputFileRef.current) {
+        inputFileRef.current.value = ''
+      }
+    },
+  })
+
+  return (
+    <>
+      <h1>头像上传</h1>
+
+      {!!info?.avatar && <img src={info?.avatar} className="block h-24 w-24 rounded-full" />}
+
+      <label htmlFor="avatar-upload" className="block bg-red-300">
+        <input
+          id="avatar-upload"
+          ref={inputFileRef}
+          type="file"
+          accept="image/jpeg, image/png, image/webp"
+          required
+          onChange={(e) => {
+            if (e.target.files) {
+              submitMutation.mutate()
+            }
+          }}
+        />
+
+        <hr />
+        <Button>上传</Button>
+      </label>
     </>
   )
 }
