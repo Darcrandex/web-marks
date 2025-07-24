@@ -8,6 +8,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const searchParams = request.nextUrl.searchParams
+
+  // 文件名其实可以包含文件夹路径，用于创建或存放到指定的文件夹内
+  // eg '/uploads/avatar/123.jpg'
   const filename = searchParams.get('filename')
 
   if (!filename) {

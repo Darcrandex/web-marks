@@ -1,5 +1,5 @@
 @import 'tailwindcss';
 
-@theme{
+@theme {
   --color-parimary: #2dd4bf; /* Example primary color */
 }

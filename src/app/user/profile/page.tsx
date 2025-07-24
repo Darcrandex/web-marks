@@ -7,14 +7,16 @@
 import { ossService } from '@/services/oss'
 import { userService } from '@/services/user'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Button } from 'antd'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function Profile() {
   const queryClient = useQueryClient()
   const router = useRouter()
+
+  useEffect(() => {}, [])
 
   const { data: info, isPending } = useQuery({
     queryKey: ['user'],
@@ -96,15 +98,13 @@ function AvatarUpload() {
     <>
       <h1>头像上传</h1>
 
-      {!!info?.avatar && <img src={info?.avatar} className="block h-24 w-24 rounded-full" />}
-
-      <label htmlFor="avatar-upload" className="block bg-red-300">
+      <label htmlFor="avatar-upload" className="block h-24 w-24 rounded-full border-2 border-gray-500 bg-red-200">
         <input
           id="avatar-upload"
           ref={inputFileRef}
           type="file"
           accept="image/jpeg, image/png, image/webp"
-          required
+          hidden
           onChange={(e) => {
             if (e.target.files) {
               submitMutation.mutate()
@@ -112,8 +112,19 @@ function AvatarUpload() {
           }}
         />
 
-        <hr />
-        <Button>上传</Button>
+        {!!info?.avatar ? (
+          <Image
+            src={info?.avatar}
+            className="block h-24 w-24 rounded-full object-cover object-center"
+            alt=""
+            width={100}
+            height={100}
+          />
+        ) : (
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-slate-100">
+            <span>upload avatar</span>
+          </div>
+        )}
       </label>
     </>
   )

@@ -17,8 +17,7 @@ export const http = axios.create({
 http.interceptors.request.use(async (config) => {
   // 将浏览器获取的 cookie 设置到请求头中
   const cookieList = await cookies()
-  const allCookies = cookieList.getAll()
-  config.headers['Cookie'] = allCookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; ')
+  config.headers['Cookie'] = cookieList.toString()
 
   // 从请求头中计算出 baseUrl
   const headerList = await headers()

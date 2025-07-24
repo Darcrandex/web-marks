@@ -1,30 +1,37 @@
 /**
- * @name MainPage
+ * @name RootPage
  * @description
  * @author darcrand
  */
 
-'use server'
-import { User } from '@/db/schema/users'
-import { http } from '@/utils/http.server'
-import { redirect } from 'next/navigation'
+'use client'
+import { userService } from '@/services/user'
+import { useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
-async function getData() {
-  let themeId: string | undefined = undefined
+export default function RootPage() {
+  const router = useRouter()
 
-  try {
-    const { data } = await http.get<User>('/api/auth/info')
-    if (data) {
-      themeId = data?.config?.themeId || 'def'
+  const { data, isError, isSuccess } = useQuery({
+    queryKey: ['user', 'info'],
+    queryFn: () => userService.info(),
+    select: (res) => res.data,
+  })
+
+  const themeId = data?.config ? data.config.themeId : null
+
+  useEffect(() => {
+    if (isError) {
+      router.replace('/guest')
+    } else if (isSuccess) {
+      router.replace(`/theme/${themeId || 'def'}`)
     }
-  } catch (error) {
-    console.log('Error fetching user info:', error)
-  }
+  }, [isSuccess, isError, router, themeId])
 
-  return themeId
-}
-
-export default async function RootPage() {
-  const themeId = await getData()
-  redirect(themeId || '/guest')
+  return (
+    <>
+      <div>loading...</div>
+    </>
+  )
 }

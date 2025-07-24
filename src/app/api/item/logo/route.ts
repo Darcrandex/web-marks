@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
         logoUrl = faviconUrl
       }
     } catch (error) {
-      console.log('没有找到默认的 favicon.ico')
+      console.log('没有找到默认的 favicon.ico', error)
     }
   }
 

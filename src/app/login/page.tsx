@@ -20,7 +20,7 @@ export default function Login() {
   const router = useRouter()
 
   const [form] = Form.useForm()
-  const [mode, setMode] = useState<(typeof modes)[number]>('signin')
+  const [mode, setMode] = useState<(typeof modes)[number]>(modes[0])
 
   const { mutate: onSubmit, isPending } = useMutation({
     mutationFn: async (values: any) => {
@@ -69,7 +69,7 @@ export default function Login() {
 
               {mode === 'signin' ? (
                 <p>
-                  <span>Don't have an account?</span>
+                  <span>Don&apos;t have an account?</span>
                   <Button type="link" onClick={() => setMode('signup')}>
                     Sign Up
                   </Button>

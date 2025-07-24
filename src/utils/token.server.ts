@@ -1,4 +1,4 @@
-'use server'
+import 'server-only'
 
 import { db } from '@/db'
 import { users } from '@/db/schema/users'
@@ -7,14 +7,16 @@ import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { type NextRequest } from 'next/server'
 
+const COOKIE_KEY_TOKEN = 'auth_token'
+
 // 生成 token
 export async function genUserToken(userId: string) {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET!, {
     expiresIn: '7d', // 7 天过期
   })
 
-  const ck = await cookies()
-  ck.set('auth_token', token, {
+  const cookieStore = await cookies()
+  cookieStore.set(COOKIE_KEY_TOKEN, token, {
     httpOnly: true,
     sameSite: 'strict',
     maxAge: 60 * 60 * 24 * 7,
@@ -25,12 +27,10 @@ export async function genUserToken(userId: string) {
 
 // 从 token 中获取用户 ID
 export async function getUserIdFromToken(request: NextRequest): Promise<string | null> {
-  // 客户端请求需要添加 header.authorization = ${token}
+  console.log('request', typeof request)
+  const cookieStore = await cookies()
 
-  const headerToken = request.headers.get('authorization')
-  const cookieToken = request.cookies.get('auth_token')?.value
-
-  const token = headerToken || cookieToken
+  const token = cookieStore.get(COOKIE_KEY_TOKEN)?.value
   if (!token) {
     return null
   }
@@ -45,4 +45,9 @@ export async function getUserIdFromToken(request: NextRequest): Promise<string |
     console.error('解析token时出错:', error)
     return null
   }
+}
+
+export async function removeToken() {
+  const cookieStore = await cookies()
+  cookieStore.delete(COOKIE_KEY_TOKEN)
 }

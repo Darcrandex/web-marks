@@ -68,7 +68,7 @@ function HeaderContent() {
       <nav className="group/menu relative my-2 flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 transition-all hover:bg-gray-50">
         <span className="text-xl text-gray-800">{userInfo?.name || 'no name'}</span>
         <i
-          className="block h-12 w-12 rounded-full bg-gray-200"
+          className="block h-12 w-12 rounded-full bg-gray-200 bg-cover bg-center"
           style={{ backgroundImage: userInfo?.avatar ? `url(${userInfo?.avatar})` : undefined }}
         />
 
@@ -107,6 +107,8 @@ function ItemLogo(props: { data: Item; className?: string }) {
       try {
         res = await loadImageAsync(data)
       } catch (error) {
+        console.log(error)
+
         res = await loadImageAsync(props.data.iconUrl || '')
       }
 
