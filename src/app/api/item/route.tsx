@@ -1,6 +1,7 @@
 import { db } from '@/db'
 import { groups } from '@/db/schema/groups'
 import { items } from '@/db/schema/items'
+import { getIconUrl } from '@/utils/getIconUrl'
 import { getUserIdFromToken } from '@/utils/token.server'
 import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
@@ -29,6 +30,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid group' }, { status: 400 })
   }
 
+  const icon = iconUrl ? iconUrl : await getIconUrl(url)
+
   const result = await db
     .insert(items)
     .values({
@@ -37,7 +40,7 @@ export async function POST(req: NextRequest) {
       url,
       name,
       desc,
-      iconUrl,
+      iconUrl: icon,
       sort,
     })
     .returning()

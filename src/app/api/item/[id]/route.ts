@@ -1,5 +1,6 @@
 import { db } from '@/db'
 import { Item, items } from '@/db/schema/items'
+import { getIconUrl } from '@/utils/getIconUrl'
 import { getUserIdFromToken } from '@/utils/token.server'
 import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
@@ -39,10 +40,11 @@ export async function PATCH(request: NextRequest, ctx: API.NextRequestContext) {
 
   const { id } = await ctx.params
   const { groupId, name, url, desc, sort, iconUrl } = (await request.json()) as Partial<Item>
+  const icon = iconUrl ? iconUrl : await getIconUrl(url || '')
 
   const res = await db
     .update(items)
-    .set({ groupId, name, url, desc, sort, iconUrl })
+    .set({ groupId, name, url, desc, sort, iconUrl: icon })
     .where(and(eq(items.id, id), eq(items.userId, userId)))
     .returning()
 
