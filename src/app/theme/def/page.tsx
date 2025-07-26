@@ -9,9 +9,8 @@ import { Item } from '@/db/schema/items'
 import { useAllData } from '@/hooks/useAllData'
 import { itemService } from '@/services/item'
 import { cls } from '@/utils/cls'
-import { faGear, faTable } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from '@tanstack/react-query'
+import { Settings, Table2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ThemeDefault() {
@@ -58,8 +57,8 @@ function HeaderContent() {
   const { userInfo } = useAllData()
 
   const menus = [
-    { title: 'Profile', url: '/user/profile', icon: faGear },
-    { title: 'Data Edit', url: '/user/data', icon: faTable },
+    { title: 'Profile', url: '/user/profile', icon: <Settings /> },
+    { title: 'Data Edit', url: '/user/data', icon: <Table2 /> },
   ]
 
   return (
@@ -77,7 +76,7 @@ function HeaderContent() {
             {menus.map((v) => (
               <li key={v.title} className="hover:bg-gray-50">
                 <Link href={v.url} className="flex items-center gap-2 px-4 py-2 text-lg !text-gray-500">
-                  {!!v.icon && <FontAwesomeIcon icon={v.icon} />}
+                  {v.icon}
                   {v.title}
                 </Link>
               </li>
@@ -108,7 +107,6 @@ function ItemLogo(props: { data: Item; className?: string }) {
         res = await loadImageAsync(data)
       } catch (error) {
         console.log(error)
-
         res = await loadImageAsync(props.data.iconUrl || '')
       }
 
