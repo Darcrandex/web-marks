@@ -10,6 +10,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 export default function RootPage() {
   const router = useRouter()
 

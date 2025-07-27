@@ -6,21 +6,28 @@
 
 'use client'
 import { useAllData } from '@/hooks/useAllData'
+import { userService } from '@/services/user'
 import { cls } from '@/utils/cls'
 import { isEmptyArray } from '@/utils/common'
 import { useDebounce } from 'ahooks'
 import { CircleX, LogOut, Settings, Table2 } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 export default function ThemeDefault() {
   const { userInfo } = useAllData()
+  const router = useRouter()
 
   const menus = [
-    { title: 'Profile', url: '/user/profile', icon: <Settings /> },
-    { title: 'Data Edit', url: '/user/data', icon: <Table2 /> },
-    { title: 'Logout', url: '/login', icon: <LogOut /> },
+    { title: 'Profile', url: '/user/profile', icon: <Settings />, onClick: () => router.push('/user/profile') },
+    { title: 'Data Edit', url: '/user/data', icon: <Table2 />, onClick: () => router.push('/user/data') },
+    {
+      title: 'Logout',
+      url: '/login',
+      icon: <LogOut />,
+      onClick: () => userService.logout().then(() => router.push('/login')),
+    },
   ]
 
   const { list } = useAllData()
@@ -51,7 +58,7 @@ export default function ThemeDefault() {
       <section className="min-h-screen bg-slate-50">
         <header className="flex items-center justify-between bg-white px-4 shadow">
           <h1 className="flex items-center">
-            <Image src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" width={64} height={64} />
+            <img src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
             <span className="text-2xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
@@ -84,13 +91,7 @@ export default function ThemeDefault() {
             <span className="text-xl text-gray-800">{userInfo?.name || 'no name'}</span>
 
             {userInfo?.avatar ? (
-              <Image
-                src={userInfo?.avatar || ''}
-                alt=""
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full bg-gray-200"
-              />
+              <img src={userInfo?.avatar || ''} alt="" className="h-12 w-12 rounded-full bg-gray-200" />
             ) : (
               <i className="h-12 w-12 rounded-full bg-gray-200" />
             )}
@@ -98,11 +99,13 @@ export default function ThemeDefault() {
             <div className="invisible absolute top-full right-0 z-10 opacity-0 transition-all group-hover/menu:visible group-hover/menu:opacity-100">
               <ol className="mt-1 w-40 rounded bg-white shadow">
                 {menus.map((v) => (
-                  <li key={v.title} className="hover:bg-gray-100">
-                    <Link href={v.url} className="flex items-center gap-2 px-4 py-2 text-lg !text-gray-500">
-                      {v.icon}
-                      {v.title}
-                    </Link>
+                  <li
+                    key={v.title}
+                    className="flex items-center gap-2 px-4 py-2 text-lg text-gray-500 transition-all hover:bg-gray-100"
+                    onClick={v.onClick}
+                  >
+                    {v.icon}
+                    {v.title}
                   </li>
                 ))}
               </ol>

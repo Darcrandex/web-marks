@@ -3,6 +3,7 @@ import { users } from '@/db/schema/users'
 import { genUserToken } from '@/utils/token.server'
 import bcrypt from 'bcryptjs'
 import { eq } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -29,6 +30,8 @@ export async function POST(request: Request) {
 
     // 生成token
     const token = await genUserToken(user.id)
+
+    revalidatePath('/')
 
     return NextResponse.json({ message: 'Login Success', data: token }, { status: 200 })
   } catch (error) {

@@ -8,11 +8,12 @@
 import { message } from '@/components/GlobalAntdMessage'
 import { userService } from '@/services/user'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Button, Form, Input } from 'antd'
+import { Button, Divider, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import './styles.css'
 
 const modes = ['signin', 'signup'] as const
 
@@ -26,7 +27,7 @@ export default function Login() {
     mutationFn: async (values: any) => {
       if (mode === 'signin') {
         await userService.login(values.email, values.password)
-        queryClient.invalidateQueries({ queryKey: ['user'] })
+        queryClient.invalidateQueries({ queryKey: [] })
         message.success('Login successful')
         router.replace('/')
       } else {
@@ -45,10 +46,12 @@ export default function Login() {
   return (
     <>
       <section className="flex h-screen w-screen items-start justify-center">
-        <section className="mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4 shadow-md">
+        <section className="ui-login-container mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4">
           <header className="mb-4 space-x-2 text-lg">
-            <span>wecome to</span>
-            <span className="text-parimary font-bold">Web Marks</span>
+            <span style={{ fontFamily: 'Nunito-Medium' }}>wecome to</span>
+            <span className="text-parimary text-3xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
+              Web Marks
+            </span>
           </header>
 
           <Form form={form} onFinish={onSubmit} layout="vertical">
@@ -63,6 +66,8 @@ export default function Login() {
             <Button block htmlType="submit" type="primary" loading={isPending} className="uppercase">
               {mode === 'signin' ? 'Sign In' : 'Sign Up'}
             </Button>
+
+            <Divider></Divider>
 
             <footer className="mt-4 text-center text-gray-500">
               {mode === 'signin' && (

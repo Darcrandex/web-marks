@@ -9,7 +9,6 @@ import { useMemo } from 'react'
 
 export function useAllData() {
   const { data: userInfo } = useQuery({
-    staleTime: 10 * 60 * 1000,
     queryKey: ['user', 'info'],
     queryFn: async () => {
       const res = await userService.info()
