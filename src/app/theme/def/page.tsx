@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 export default function ThemeDefault() {
-  const { userInfo } = useAllData()
+  const { userInfo, isUnAthenticated } = useAllData()
   const router = useRouter()
 
   const menus = [
@@ -52,6 +52,21 @@ export default function ThemeDefault() {
 
     return arr
   }, [list, keyword])
+
+  if (isUnAthenticated) {
+    return (
+      <>
+        <h2 className="mt-12 text-center text-3xl font-bold">Unauthenticated</h2>
+        <p className="mt-12 text-center text-lg text-gray-500">
+          <span>Please</span>
+          <Link href="/login" className="mx-2 text-blue-500 underline">
+            Login
+          </Link>
+          <span>to view your items.</span>
+        </p>
+      </>
+    )
+  }
 
   return (
     <>

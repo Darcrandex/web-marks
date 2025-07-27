@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 export function useAllData() {
-  const { data: userInfo } = useQuery({
+  const { data: userInfo, isError } = useQuery({
     queryKey: ['user', 'info'],
     queryFn: async () => {
       const res = await userService.info()
@@ -41,5 +41,5 @@ export function useAllData() {
     )
   }, [items, groups])
 
-  return { userInfo, list, groups, items }
+  return { userInfo, list, groups, items, isUnAthenticated: isError }
 }
