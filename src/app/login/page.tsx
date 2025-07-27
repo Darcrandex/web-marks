@@ -27,8 +27,11 @@ export default function Login() {
       if (mode === 'signin') {
         await userService.login(values.email, values.password)
         queryClient.invalidateQueries({ queryKey: ['user'] })
+        message.success('Login successful')
         router.replace('/')
       } else {
+        await userService.register(values.email, values.password)
+        message.success('Sign up successful, please sign in')
         form.resetFields()
         setMode('signin')
       }
