@@ -10,6 +10,7 @@ import { cls } from '@/utils/cls'
 import { isEmptyArray } from '@/utils/common'
 import { useDebounce } from 'ahooks'
 import { CircleX, Settings, Table2 } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
@@ -49,7 +50,7 @@ export default function ThemeDefault() {
       <section className="min-h-screen bg-slate-50">
         <header className="flex items-center justify-between bg-white px-4 shadow">
           <h1 className="flex items-center">
-            <img src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
+            <Image src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
             <span className="text-2xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
