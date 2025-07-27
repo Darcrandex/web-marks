@@ -3,3 +3,21 @@
 @theme {
   --color-parimary: #2dd4bf; /* Example primary color */
 }
+
+/* custom fonts */
+@font-face {
+  font-family: 'Caveat-Medium';
+  src: url('/fonts/Caveat-Medium.ttf') format('truetype');
+}
+
+/* Nunito-Medium */
+@font-face {
+  font-family: 'Nunito-Medium';
+  src: url('/fonts/Nunito-Medium.ttf') format('truetype');
+}
+
+/* PermanentMarker */
+@font-face {
+  font-family: 'PermanentMarker-Regular';
+  src: url('/fonts/PermanentMarker-Regular.ttf') format('truetype');
+}

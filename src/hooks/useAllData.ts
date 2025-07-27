@@ -1,4 +1,6 @@
 'use client'
+import { Group } from '@/db/schema/groups'
+import { Item } from '@/db/schema/items'
 import { groupService } from '@/services/group'
 import { itemService } from '@/services/item'
 import { userService } from '@/services/user'
@@ -35,7 +37,7 @@ export function useAllData() {
     return (
       groups?.map((g) => {
         const itemsInGroup = items?.filter((i) => i.groupId === g.id) || []
-        return { ...g, items: itemsInGroup }
+        return { ...g, items: itemsInGroup } as Group & { items: Item[] }
       }) || []
     )
   }, [items, groups])
