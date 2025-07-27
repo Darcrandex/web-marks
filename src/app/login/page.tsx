@@ -7,7 +7,7 @@
 
 import { message } from '@/components/GlobalAntdMessage'
 import { userService } from '@/services/user'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
 import Link from 'next/link'
@@ -17,8 +17,8 @@ import { useState } from 'react'
 const modes = ['signin', 'signup'] as const
 
 export default function Login() {
+  const queryClient = useQueryClient()
   const router = useRouter()
-
   const [form] = Form.useForm()
   const [mode, setMode] = useState<(typeof modes)[number]>(modes[0])
 
@@ -26,6 +26,7 @@ export default function Login() {
     mutationFn: async (values: any) => {
       if (mode === 'signin') {
         await userService.login(values.email, values.password)
+        queryClient.invalidateQueries({ queryKey: ['user'] })
         router.replace('/')
       } else {
         form.resetFields()

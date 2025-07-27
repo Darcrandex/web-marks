@@ -9,7 +9,7 @@ import { useAllData } from '@/hooks/useAllData'
 import { cls } from '@/utils/cls'
 import { isEmptyArray } from '@/utils/common'
 import { useDebounce } from 'ahooks'
-import { CircleX, Settings, Table2 } from 'lucide-react'
+import { CircleX, LogOut, Settings, Table2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
@@ -20,6 +20,7 @@ export default function ThemeDefault() {
   const menus = [
     { title: 'Profile', url: '/user/profile', icon: <Settings /> },
     { title: 'Data Edit', url: '/user/data', icon: <Table2 /> },
+    { title: 'Logout', url: '/login', icon: <LogOut /> },
   ]
 
   const { list } = useAllData()
@@ -50,7 +51,7 @@ export default function ThemeDefault() {
       <section className="min-h-screen bg-slate-50">
         <header className="flex items-center justify-between bg-white px-4 shadow">
           <h1 className="flex items-center">
-            <Image src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
+            <Image src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" width={64} height={64} />
             <span className="text-2xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
@@ -81,10 +82,18 @@ export default function ThemeDefault() {
 
           <nav className="group/menu relative my-2 flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 transition-all hover:bg-gray-100">
             <span className="text-xl text-gray-800">{userInfo?.name || 'no name'}</span>
-            <i
-              className="block h-12 w-12 rounded-full bg-gray-200 bg-cover bg-center"
-              style={{ backgroundImage: userInfo?.avatar ? `url(${userInfo?.avatar})` : undefined }}
-            />
+
+            {userInfo?.avatar ? (
+              <Image
+                src={userInfo?.avatar || ''}
+                alt=""
+                width={48}
+                height={48}
+                className="h-12 w-12 rounded-full bg-gray-200"
+              />
+            ) : (
+              <i className="h-12 w-12 rounded-full bg-gray-200" />
+            )}
 
             <div className="invisible absolute top-full right-0 z-10 opacity-0 transition-all group-hover/menu:visible group-hover/menu:opacity-100">
               <ol className="mt-1 w-40 rounded bg-white shadow">

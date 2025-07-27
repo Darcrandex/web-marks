@@ -21,4 +21,6 @@ export const userService = {
     const response = await http.put<API.Result>('/api/user', user)
     return response.data
   },
+
+  logout: async () => http.put('/api/auth/logout'),
 }

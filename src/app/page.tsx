@@ -31,7 +31,7 @@ export default function RootPage() {
 
   return (
     <>
-      <div>loading...</div>
+      <div className="mt-60 text-center text-gray-500">loading...</div>
     </>
   )
 }
