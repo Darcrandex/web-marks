@@ -16,7 +16,7 @@ export function useAllData() {
     },
   })
 
-  const { data: groups } = useQuery({
+  const { data: groups, isSuccess: isGroupsSuccess } = useQuery({
     queryKey: ['groups'],
     queryFn: async () => {
       const res = await groupService.list()
@@ -24,7 +24,7 @@ export function useAllData() {
     },
   })
 
-  const { data: items } = useQuery({
+  const { data: items, isSuccess: isItemsSucces } = useQuery({
     queryKey: ['items'],
     queryFn: async () => {
       const res = await itemService.list()
@@ -41,5 +41,5 @@ export function useAllData() {
     )
   }, [items, groups])
 
-  return { userInfo, list, groups, items, isUnAthenticated: isError }
+  return { userInfo, list, groups, items, isUnAthenticated: isError, isGroupsSuccess, isItemsSucces }
 }

@@ -10,7 +10,7 @@ import { PropsWithChildren } from 'react'
 
 export default function NextProgressBar(props: PropsWithChildren) {
   return (
-    <ProgressProvider height="4px" color="#3b82f6" options={{ showSpinner: false }} shallowRouting>
+    <ProgressProvider height="4px" color="#2dd4bf" options={{ showSpinner: false }} shallowRouting>
       {props.children}
     </ProgressProvider>
   )

@@ -8,7 +8,7 @@
 import LogoView from '@/components/LogoView'
 import { useAllData } from '@/hooks/useAllData'
 import { cls } from '@/utils/cls'
-import { isEmptyArray } from '@/utils/common'
+import { useIsFetching } from '@tanstack/react-query'
 import { useDebounce } from 'ahooks'
 import { Button } from 'antd'
 import { CircleX, LogOut, Table2, UserRoundPen } from 'lucide-react'
@@ -17,7 +17,8 @@ import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
 export default function ThemeDefault() {
-  const { userInfo, isUnAthenticated } = useAllData()
+  const { userInfo, isUnAthenticated, isGroupsSuccess, isItemsSucces } = useAllData()
+  const hasLoading = useIsFetching() > 0
 
   const menus = [
     {
@@ -96,6 +97,7 @@ export default function ThemeDefault() {
               className="min-w-80 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 transition-all outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400"
               maxLength={20}
               placeholder="Search..."
+              disabled={list.length === 0}
             />
 
             <i
@@ -175,7 +177,9 @@ export default function ThemeDefault() {
           ))}
         </ul>
 
-        {isEmptyArray(filteredList) && (
+        {hasLoading && list.length === 0 && <p className="mt-40 text-center text-gray-500">Loading...</p>}
+
+        {!hasLoading && isGroupsSuccess && isItemsSucces && list.length === 0 && (
           <>
             <p className="mt-40 text-center text-gray-500">You have no bookmarks yet. Start adding some!</p>
             <p className="mt-8 text-center">
@@ -185,6 +189,8 @@ export default function ThemeDefault() {
             </p>
           </>
         )}
+
+        {!!keyword && filteredList.length === 0 && <p className="mt-40 text-center text-gray-500">No results found.</p>}
       </section>
     </>
   )
