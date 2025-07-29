@@ -108,7 +108,9 @@ function GroupTable() {
 
   return (
     <>
-      <Space>
+      <p className="text-gray-500">book marks group</p>
+
+      <Space className="mt-4">
         <Button type="primary" onClick={() => onEdit()}>
           Add Group
         </Button>
@@ -256,7 +258,9 @@ function ItemTable() {
 
   return (
     <>
-      <Space>
+      <p className="text-gray-500">Your web book marks</p>
+
+      <Space className="mt-4">
         <Button type="primary" onClick={() => onEdit()}>
           Add Item
         </Button>

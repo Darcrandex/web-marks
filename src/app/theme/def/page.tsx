@@ -10,6 +10,7 @@ import { useAllData } from '@/hooks/useAllData'
 import { cls } from '@/utils/cls'
 import { isEmptyArray } from '@/utils/common'
 import { useDebounce } from 'ahooks'
+import { Button } from 'antd'
 import { CircleX, LogOut, Table2, UserRoundPen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -174,7 +175,16 @@ export default function ThemeDefault() {
           ))}
         </ul>
 
-        {isEmptyArray(filteredList) && <div className="mt-40 text-center text-gray-500">No items found</div>}
+        {isEmptyArray(filteredList) && (
+          <>
+            <p className="mt-40 text-center text-gray-500">You have no bookmarks yet. Start adding some!</p>
+            <p className="mt-8 text-center">
+              <Button type="primary" ghost href="/user/settings/data">
+                add your marks
+              </Button>
+            </p>
+          </>
+        )}
       </section>
     </>
   )
