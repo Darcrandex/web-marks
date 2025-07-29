@@ -120,7 +120,7 @@ function BaseInfoUpdate() {
     if (userInfo) {
       form.setFieldsValue(userInfo)
     }
-  }, [userInfo])
+  }, [userInfo, form])
 
   const updateMutation = useMutation({
     mutationFn: async (values: any) => {

@@ -9,7 +9,6 @@ import { http } from '@/utils/http.client'
 import { useMutation } from '@tanstack/react-query'
 import { App as AntdApp, Button, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
-import { isEmpty } from 'es-toolkit/compat'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
@@ -34,7 +33,7 @@ function ResetPasswordContent() {
     mutationFn: async (values: any) => {
       const { newPassword } = values || {}
       const res = await http.post('/api/auth/reset-pwd', { newPassword, sign })
-      return res.data.data
+      return res.data?.data
     },
 
     onSuccess() {
@@ -42,11 +41,11 @@ function ResetPasswordContent() {
       router.replace('/login')
     },
 
-    onError(err) {
+    onError(err: unknown) {
       let msg = 'reset password failed, please try again.'
       if (err instanceof AxiosError) {
-        if (!isEmpty(err.response?.statusText)) {
-          msg = err.response?.statusText!
+        if (typeof err?.response?.statusText === 'string') {
+          msg = err?.response?.statusText
         }
       }
 
@@ -86,7 +85,7 @@ function ResetPasswordContent() {
                 { required: true, message: 'confirm your password!' },
                 {
                   validator(_, value) {
-                    if (!value || form.getFieldValue('newPassword') === value) {
+                    if (!value || form?.getFieldValue('newPassword') === value) {
                       return Promise.resolve()
                     }
                     return Promise.reject(new Error('The two passwords that you entered do not match!'))
