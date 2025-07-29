@@ -1,12 +1,17 @@
 import { db } from '@/db'
 import { users } from '@/db/schema/users'
 import bcrypt from 'bcryptjs'
-import { eq } from 'drizzle-orm'
+import { count, eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 // 用户注册
 export async function POST(request: Request) {
   const { email, password } = await request.json()
+
+  const [{ count: totalCount }] = await db.select({ count: count(users.id) }).from(users)
+  if (totalCount > Number(process.env.MAX_ACCOUT_COUNT || 100)) {
+    return NextResponse.json(null, { status: 400, statusText: 'max user limit reached' })
+  }
 
   // 验证请求数据
   if (!email || !password) {

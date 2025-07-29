@@ -1,9 +1,8 @@
 import { db } from '@/db'
 import { groups } from '@/db/schema/groups'
 import { items } from '@/db/schema/items'
-import { getIconUrl } from '@/utils/getIconUrl'
 import { getUserIdFromToken } from '@/utils/token.server'
-import { and, eq } from 'drizzle-orm'
+import { and, count, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -27,10 +26,16 @@ export async function POST(req: NextRequest) {
     .then((res) => res.length > 0)
 
   if (!isValidGroup) {
-    return NextResponse.json({ error: 'invalid group' }, { status: 400 })
+    return NextResponse.json(null, { status: 400, statusText: 'invalid group' })
   }
 
-  const icon = iconUrl ? iconUrl : await getIconUrl(url)
+  const [{ count: totalCount }] = await db
+    .select({ count: count(items.id) })
+    .from(items)
+    .where(eq(items.userId, userId))
+  if (totalCount > Number(process.env.MAX_DATA_SIZE_PER_ACCOUNT || 100)) {
+    return NextResponse.json(null, { status: 400, statusText: 'max item limit reached' })
+  }
 
   const result = await db
     .insert(items)
@@ -40,7 +45,7 @@ export async function POST(req: NextRequest) {
       url,
       name,
       desc,
-      iconUrl: icon,
+      iconUrl,
       sort,
     })
     .returning()
