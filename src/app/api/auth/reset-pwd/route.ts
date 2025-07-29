@@ -11,11 +11,11 @@ export async function POST(req: NextRequest) {
   const { newPassword, sign } = await req.json()
 
   if (!newPassword) {
-    return NextResponse.json({ message: '密码不能为空' }, { status: 400 })
+    return NextResponse.json(null, { status: 400, statusText: 'password is missing' })
   }
 
   if (!sign) {
-    return NextResponse.json({ message: '签名不能为空' }, { status: 400 })
+    return NextResponse.json(null, { status: 400, statusText: 'sign is missing' })
   }
 
   try {
@@ -28,10 +28,10 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await hash(newPassword, 10)
     await db.update(users).set({ password: hashedPassword }).where(eq(users.id, user.id))
 
-    return NextResponse.json({ message: '密码重置成功' })
+    return NextResponse.json({ message: 'password updated successfully' }, { status: 200, statusText: 'success' })
   } catch (error) {
     console.log(error)
 
-    return NextResponse.json({ message: '密码重置失败' }, { status: 500 })
+    return NextResponse.json(null, { status: 500, statusText: 'server error' })
   }
 }

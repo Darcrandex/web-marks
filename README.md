@@ -4,6 +4,8 @@
 
 一个浏览器书签管理器，个人部署版本。以此项目来演示和总结 nextjs 全栈方案。
 
+- [lucide](https://lucide.dev/icons/)
+
 ## Nextjs
 
 基于 reactjs 的全栈框架。有着稳定的生态。缺点是后端能力不足。

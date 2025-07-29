@@ -22,5 +22,10 @@ export const userService = {
     return response.data
   },
 
+  updatePassword: async ({ oldPassword, newPassword }: { oldPassword: string; newPassword: string }) => {
+    const response = await http.post<API.Result>('/api/auth/update-pwd', { oldPassword, newPassword })
+    return response.data
+  },
+
   logout: async () => http.put('/api/auth/logout'),
 }

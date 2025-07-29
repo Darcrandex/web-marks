@@ -4,6 +4,7 @@
  * @author darcrand
  */
 
+import LogoView from '@/components/LogoView'
 import Link from 'next/link'
 import { guestGroups, guestItems } from './guest-data'
 
@@ -15,10 +16,16 @@ export default async function Guest() {
     }) || []
 
   return (
-    <section className="h-screen w-screen">
+    <section className="min-h-screen">
       <header className="flex items-center justify-between bg-white p-4 shadow">
-        <h1 className="text-parimary text-2xl font-bold">Web Marks</h1>
-        <Link href="/login" className="!text-parimary border-parimary rounded border-2 px-4 py-1 font-bold">
+        <Link href="/" className="flex cursor-pointer items-center">
+          <img src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
+          <span className="text-2xl font-bold !text-gray-900" style={{ fontFamily: 'Caveat-Medium' }}>
+            Web Marks
+          </span>
+        </Link>
+
+        <Link href="/login" className="rounded border-2 border-lime-400 px-4 py-1 font-bold !text-lime-400">
           Login
         </Link>
       </header>
@@ -27,7 +34,10 @@ export default async function Guest() {
         {list.map((g) => (
           <li key={g.id}>
             <h3 className="my-4 text-center text-2xl font-bold">
-              <span className="after:bg-parimary relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2">
+              <span
+                className="relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2 after:bg-lime-400"
+                style={{ fontFamily: 'PermanentMarker-Regular' }}
+              >
                 {g.name}
               </span>
             </h3>
@@ -36,12 +46,9 @@ export default async function Guest() {
               {g.items.map((i) => (
                 <li key={i.id} className="m-4 rounded border border-gray-300 bg-white transition-all hover:shadow-md">
                   <Link href={i.url || '#'} target="_blank" className="flex items-center gap-2 p-4">
-                    <i
-                      style={{ backgroundImage: `url(${i.iconUrl})` }}
-                      className="h-12 w-12 rounded-full bg-gray-200 bg-cover"
-                    />
+                    <LogoView src={i.iconUrl} className="h-12 w-12 shrink-0" />
 
-                    <article>
+                    <article className="flex-1 truncate" style={{ fontFamily: 'Nunito-Medium' }}>
                       <h4 className="truncate text-lg text-gray-800">{i.name}</h4>
                       <p className="truncate text-gray-500">{i.desc}</p>
                     </article>

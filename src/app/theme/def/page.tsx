@@ -5,28 +5,34 @@
  */
 
 'use client'
+import LogoView from '@/components/LogoView'
 import { useAllData } from '@/hooks/useAllData'
-import { userService } from '@/services/user'
 import { cls } from '@/utils/cls'
 import { isEmptyArray } from '@/utils/common'
 import { useDebounce } from 'ahooks'
-import { CircleX, LogOut, Settings, Table2 } from 'lucide-react'
+import { CircleX, LogOut, Table2, UserRoundPen } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 export default function ThemeDefault() {
   const { userInfo, isUnAthenticated } = useAllData()
-  const router = useRouter()
 
   const menus = [
-    { title: 'Profile', url: '/user/profile', icon: <Settings />, onClick: () => router.push('/user/profile') },
-    { title: 'Data Edit', url: '/user/data', icon: <Table2 />, onClick: () => router.push('/user/data') },
+    {
+      title: 'Profile',
+      url: '/user/settings/profile',
+      icon: <UserRoundPen />,
+    },
+    {
+      title: 'Data Edit',
+      url: '/user/settings/data',
+      icon: <Table2 />,
+    },
     {
       title: 'Logout',
       url: '/login',
       icon: <LogOut />,
-      onClick: () => userService.logout().then(() => router.push('/login')),
     },
   ]
 
@@ -72,12 +78,12 @@ export default function ThemeDefault() {
     <>
       <section className="min-h-screen bg-slate-50">
         <header className="flex items-center justify-between bg-white px-4 shadow">
-          <h1 className="flex items-center">
+          <Link href="/" className="flex cursor-pointer items-center">
             <img src="/logo-01.png" alt="" className="h-8 w-8 bg-cover bg-center" />
-            <span className="text-2xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
+            <span className="text-2xl font-bold !text-gray-900" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
-          </h1>
+          </Link>
 
           <section className="relative">
             <input
@@ -105,22 +111,29 @@ export default function ThemeDefault() {
           <nav className="group/menu relative my-2 flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 transition-all hover:bg-gray-100">
             <span className="text-xl text-gray-800">{userInfo?.name || 'no name'}</span>
 
-            {userInfo?.avatar ? (
-              <img src={userInfo?.avatar || ''} alt="" className="h-12 w-12 rounded-full bg-gray-200" />
-            ) : (
+            {!userInfo?.avatar ? (
               <i className="h-12 w-12 rounded-full bg-gray-200" />
+            ) : (
+              <Image
+                src={userInfo?.avatar}
+                alt=""
+                className="h-12 w-12 rounded-full bg-gray-200"
+                width={24}
+                height={24}
+              />
             )}
 
             <div className="invisible absolute top-full right-0 z-10 opacity-0 transition-all group-hover/menu:visible group-hover/menu:opacity-100">
               <ol className="mt-1 w-40 rounded bg-white shadow">
                 {menus.map((v) => (
-                  <li
-                    key={v.title}
-                    className="flex items-center gap-2 px-4 py-2 text-lg text-gray-500 transition-all hover:bg-gray-100"
-                    onClick={v.onClick}
-                  >
-                    {v.icon}
-                    {v.title}
+                  <li key={v.url}>
+                    <Link
+                      href={v.url}
+                      className="flex items-center gap-2 px-4 py-2 text-lg !text-gray-500 transition-all hover:!bg-gray-100"
+                    >
+                      {v.icon}
+                      {v.title}
+                    </Link>
                   </li>
                 ))}
               </ol>
@@ -147,10 +160,7 @@ export default function ThemeDefault() {
                     className="m-4 rounded-lg border border-gray-300 bg-white transition-all hover:shadow-md"
                   >
                     <Link href={i.url || '#'} target="_blank" className="flex items-center gap-2 p-4">
-                      <i
-                        style={{ backgroundImage: i.iconUrl ? `url(${i.iconUrl})` : undefined }}
-                        className="h-12 w-12 rounded-full bg-gray-200 bg-cover stroke-0"
-                      />
+                      <LogoView src={i.iconUrl} className="h-12 w-12 shrink-0" />
 
                       <article className="flex-1 truncate" style={{ fontFamily: 'Nunito-Medium' }}>
                         <h4 className="truncate text-lg font-bold text-gray-800">{i.name}</h4>

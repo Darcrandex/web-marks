@@ -32,7 +32,7 @@ export const guestGroups: Group[] = [
 export const guestItems: Item[] = [
   {
     id: 'item1',
-    name: 'my first item',
+    name: 'bilibili',
     url: 'https://www.bilibili.com',
     iconUrl: 'https://i0.hdslb.com/bfs/static/jinkela/long/images/favicon.ico',
     sort: 1,

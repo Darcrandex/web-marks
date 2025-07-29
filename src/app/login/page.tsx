@@ -8,6 +8,7 @@
 import { message } from '@/components/GlobalAntdMessage'
 import { userService } from '@/services/user'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAsyncEffect } from 'ahooks'
 import { Button, Divider, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
 import Link from 'next/link'
@@ -18,6 +19,10 @@ import './styles.css'
 const modes = ['signin', 'signup'] as const
 
 export default function Login() {
+  useAsyncEffect(async () => {
+    userService.logout()
+  }, [])
+
   const queryClient = useQueryClient()
   const router = useRouter()
   const [form] = Form.useForm()
@@ -49,7 +54,7 @@ export default function Login() {
         <section className="ui-login-container mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4">
           <header className="mb-4 space-x-2 text-lg">
             <span style={{ fontFamily: 'Nunito-Medium' }}>wecome to</span>
-            <span className="text-parimary text-3xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
+            <span className="text-parimary text-4xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
           </header>
@@ -91,6 +96,12 @@ export default function Login() {
                   </Button>
                 </p>
               )}
+            </footer>
+
+            <footer className="mt-4 text-center">
+              <Button type="link" href="/">
+                Back to Home
+              </Button>
             </footer>
           </Form>
         </section>

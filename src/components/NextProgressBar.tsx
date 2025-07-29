@@ -5,8 +5,13 @@
  */
 
 'use client'
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
+import { ProgressProvider } from '@bprogress/next/app'
+import { PropsWithChildren } from 'react'
 
-export default function NextProgressBar() {
-  return <ProgressBar height="4px" color="#fffd00" options={{ showSpinner: false }} shallowRouting />
+export default function NextProgressBar(props: PropsWithChildren) {
+  return (
+    <ProgressProvider height="4px" color="#3b82f6" options={{ showSpinner: false }} shallowRouting>
+      {props.children}
+    </ProgressProvider>
+  )
 }
