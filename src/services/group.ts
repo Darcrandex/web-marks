@@ -21,4 +21,6 @@ export const groupService = {
     const res = await http.delete(`/api/group/${id}`)
     return res.data
   },
+
+  sort: async (updates: { id: string; sort: number }[]) => http.post('/api/group/sort', { updates }),
 }

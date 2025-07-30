@@ -1,14 +1,14 @@
 import { db } from '@/db'
 import { groups } from '@/db/schema/groups'
 import { getUserIdFromToken } from '@/utils/token.server'
-import { count, eq } from 'drizzle-orm'
+import { asc, count, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const userId = await getUserIdFromToken(req)
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  const result = await db.select().from(groups).where(eq(groups.userId, userId))
+  const result = await db.select().from(groups).where(eq(groups.userId, userId)).orderBy(asc(groups.sort))
   return NextResponse.json(result)
 }
 

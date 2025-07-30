@@ -1,5 +1,3 @@
-export const runtime = 'edge' // 可用 'nodejs'，如你不使用 Vercel Edge Functions
-
 export async function POST(req: Request) {
   const { messages } = await req.json()
 

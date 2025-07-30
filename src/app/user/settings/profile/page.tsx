@@ -124,7 +124,6 @@ function BaseInfoUpdate() {
 
   const updateMutation = useMutation({
     mutationFn: async (values: any) => {
-      console.log(values)
       await userService.updateProfile(values)
     },
     onSuccess() {
