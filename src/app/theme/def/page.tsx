@@ -5,7 +5,7 @@
  */
 
 'use client'
-import LogoView from '@/components/LogoView'
+import DefGroupsView from '@/components/DefGroupsView'
 import { useAllData } from '@/hooks/useAllData'
 import { cls } from '@/utils/cls'
 import { useIsFetching } from '@tanstack/react-query'
@@ -18,6 +18,7 @@ import { useMemo, useState } from 'react'
 
 export default function ThemeDefault() {
   const { userInfo, isUnAthenticated, isGroupsSuccess, isItemsSucces } = useAllData()
+
   const hasLoading = useIsFetching() > 0
 
   const menus = [
@@ -144,38 +145,7 @@ export default function ThemeDefault() {
           </nav>
         </header>
 
-        <ul className="my-8 space-y-8">
-          {filteredList.map((g) => (
-            <li key={g.id}>
-              <h3 className="my-4 text-center text-3xl font-bold">
-                <span
-                  className="relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2 after:bg-lime-400"
-                  style={{ fontFamily: 'PermanentMarker-Regular' }}
-                >
-                  {g.name}
-                </span>
-              </h3>
-
-              <ul className="rouded-lg mx-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {g.items.map((i) => (
-                  <li
-                    key={i.id}
-                    className="m-4 rounded-lg border border-gray-300 bg-white transition-all hover:shadow-md"
-                  >
-                    <Link href={i.url || '#'} target="_blank" className="flex items-center gap-2 p-4">
-                      <LogoView src={i.iconUrl} className="h-12 w-12 shrink-0" />
-
-                      <article className="flex-1 truncate" style={{ fontFamily: 'Nunito-Medium' }}>
-                        <h4 className="truncate text-lg font-bold text-gray-800">{i.name}</h4>
-                        <p className="truncate text-gray-500">{i.desc}</p>
-                      </article>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <DefGroupsView data={filteredList} />
 
         {hasLoading && list.length === 0 && <p className="mt-40 text-center text-gray-500">Loading...</p>}
 

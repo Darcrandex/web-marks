@@ -158,7 +158,8 @@ export default function GroupTable() {
       const data = sorted.map((v) => ({ id: v.id, sort: v.sort || 0 }))
       await groupService.sort(data)
     },
-    onSuccess() {
+
+    onSettled() {
       queryClient.invalidateQueries({ queryKey: ['groups'] })
     },
   })
@@ -212,7 +213,7 @@ export default function GroupTable() {
         </SortableContext>
       </DndContext>
 
-      <Drawer title={isUpdate ? 'Edit Group' : 'Add Group'} open={open} onClose={() => setOpen(false)} width={400}>
+      <Drawer title={isUpdate ? 'Edit Group' : 'Add Group'} open={open} onClose={() => setOpen(false)} width={520}>
         <Form form={form} name="group-form" layout="vertical" onFinish={submitMutation.mutate}>
           <Form.Item name="id" hidden>
             <Input />

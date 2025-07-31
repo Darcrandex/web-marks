@@ -5,7 +5,7 @@
  */
 
 import AuthPlugin from '@/components/AuthPlugin'
-import LogoView from '@/components/LogoView'
+import DefGroupsView from '@/components/DefGroupsView'
 import { guestGroups, guestItems } from '@/db/guest-data'
 import Link from 'next/link'
 
@@ -32,35 +32,7 @@ export default async function RootPage() {
           </Link>
         </header>
 
-        <ul className="my-8 space-y-8">
-          {list.map((g) => (
-            <li key={g.id}>
-              <h3 className="my-4 text-center text-2xl font-bold">
-                <span
-                  className="relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2 after:bg-lime-400"
-                  style={{ fontFamily: 'PermanentMarker-Regular' }}
-                >
-                  {g.name}
-                </span>
-              </h3>
-
-              <ul className="rouded-lg grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {g.items.map((i) => (
-                  <li key={i.id} className="m-4 rounded border border-gray-300 bg-white transition-all hover:shadow-md">
-                    <Link href={i.url || '#'} target="_blank" className="flex items-center gap-2 p-4">
-                      <LogoView src={i.iconUrl} className="h-12 w-12 shrink-0" />
-
-                      <article className="flex-1 truncate" style={{ fontFamily: 'Nunito-Medium' }}>
-                        <h4 className="truncate text-lg text-gray-800">{i.name}</h4>
-                        <p className="truncate text-gray-500">{i.desc}</p>
-                      </article>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <DefGroupsView data={list} />
       </section>
 
       <AuthPlugin />

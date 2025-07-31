@@ -13,19 +13,22 @@ import { useEffect } from 'react'
 export default function AuthPlugin() {
   const router = useRouter()
 
-  const { data } = useQuery({
+  const { data: userInfo } = useQuery({
     queryKey: ['user', 'info'],
-    queryFn: () => userService.info(),
-    select: (res) => res.data,
+    staleTime: 10 * 60 * 1000,
+    queryFn: async () => {
+      const res = await userService.info()
+      return res.data
+    },
   })
 
   useEffect(() => {
     // 如果登录成功跳转到主题页面
-    if (data?.id) {
-      const themeId = data?.config?.themeId || 'def'
+    if (userInfo?.id) {
+      const themeId = userInfo?.config?.themeId || 'def'
       router.push(`/theme/${themeId}`)
     }
-  }, [data, router])
+  }, [userInfo, router])
 
   return null
 }

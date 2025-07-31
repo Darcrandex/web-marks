@@ -12,6 +12,7 @@ import { itemService } from '@/services/item'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { TableProps } from 'antd'
 import { App as AntdApp, Button, Drawer, Form, Input, InputNumber, Popconfirm, Select, Space, Table } from 'antd'
+import { isNil } from 'es-toolkit'
 import { isEmpty } from 'es-toolkit/compat'
 import { useState } from 'react'
 
@@ -61,7 +62,24 @@ export default function ItemTable() {
     },
   })
 
-  const { mutateAsync: getIconFromUrlField, isPending: isGettingIconFromUrl } = useMutation({
+  // 输入网址后进行格式化
+  const formatUrl = useMutation({
+    mutationFn: async () => {
+      if (isNil(itemUrl) || isEmpty(itemUrl)) {
+        throw new Error('url is empty')
+      }
+
+      const url = new URL(itemUrl)
+      return url.origin
+    },
+
+    onSuccess(value) {
+      form.setFieldValue('url', value)
+    },
+  })
+
+  // 根据输入的网址获取图标
+  const getIconUrl = useMutation({
     mutationFn: async () => {
       if (!isEmpty(itemUrl)) {
         const res = await itemService.getLogo(itemUrl)
@@ -134,7 +152,7 @@ export default function ItemTable() {
         pagination={{ hideOnSinglePage: true }}
       />
 
-      <Drawer title={isUpdate ? 'Edit Item' : 'Add Item'} open={open} onClose={() => setOpen(false)} width={400}>
+      <Drawer title={isUpdate ? 'Edit Item' : 'Add Item'} open={open} onClose={() => setOpen(false)} width={520}>
         <Form form={form} name="item-form" layout="vertical" onFinish={submitMutation.mutate}>
           <Form.Item name="id" hidden>
             <Input />
@@ -144,8 +162,19 @@ export default function ItemTable() {
             <Input maxLength={20} allowClear />
           </Form.Item>
 
-          <Form.Item name="url" label="Url" rules={[{ required: true, message: 'Please input the URL!' }]}>
-            <Input maxLength={50} allowClear />
+          <Form.Item label="Url" required>
+            <Form.Item name="url" noStyle rules={[{ required: true, message: 'Please input the URL!' }]}>
+              <Input maxLength={50} allowClear disabled={formatUrl.isPending} />
+            </Form.Item>
+
+            <Button
+              className="mt-2"
+              onClick={() => formatUrl.mutateAsync()}
+              disabled={isEmpty(itemUrl)}
+              loading={formatUrl.isPending}
+            >
+              format
+            </Button>
           </Form.Item>
 
           <Form.Item name="groupId" label="Group" rules={[{ required: true, message: 'Please select a group!' }]}>
@@ -158,20 +187,20 @@ export default function ItemTable() {
 
           <Form.Item label="IconUrl">
             <Form.Item name="iconUrl" noStyle>
-              <Input allowClear />
+              <Input allowClear disabled={getIconUrl.isPending} />
             </Form.Item>
 
             <Button
               className="mt-2"
-              onClick={() => getIconFromUrlField()}
+              onClick={() => getIconUrl.mutate()}
               disabled={isEmpty(itemUrl)}
-              loading={isGettingIconFromUrl}
+              loading={getIconUrl.isPending}
             >
-              get icon from url
+              get icon
             </Button>
           </Form.Item>
 
-          <Form.Item label="Sort" name="sort">
+          <Form.Item hidden label="Sort" name="sort">
             <InputNumber maxLength={5} step={1} />
           </Form.Item>
 

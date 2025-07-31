@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
 
   // 按优先级查找 logo
   for (const selector of logoSelectors) {
-    const element = $(selector).first()
+    const element = $(selector).last()
     if (element.length) {
       if (selector.includes('link')) {
         logoUrl = element.attr('href')
