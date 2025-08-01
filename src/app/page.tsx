@@ -4,6 +4,7 @@
  * @author darcrand
  */
 
+import AsideChat from '@/components/AsideChat'
 import AuthPlugin from '@/components/AuthPlugin'
 import DefGroupsView from '@/components/DefGroupsView'
 import { guestGroups, guestItems } from '@/db/guest-data'
@@ -35,6 +36,7 @@ export default async function RootPage() {
         <DefGroupsView data={list} />
       </section>
 
+      <AsideChat />
       <AuthPlugin />
     </>
   )

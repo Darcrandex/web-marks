@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@import 'tailwind-scrollbar-hide/v4';
 
 @theme {
   --color-parimary: #2dd4bf;

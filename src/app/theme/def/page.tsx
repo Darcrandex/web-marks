@@ -5,6 +5,7 @@
  */
 
 'use client'
+import AsideChat from '@/components/AsideChat'
 import DefGroupsView from '@/components/DefGroupsView'
 import { useAllData } from '@/hooks/useAllData'
 import { cls } from '@/utils/cls'
@@ -162,6 +163,8 @@ export default function ThemeDefault() {
 
         {!!keyword && filteredList.length === 0 && <p className="mt-40 text-center text-gray-500">No results found.</p>}
       </section>
+
+      <AsideChat />
     </>
   )
 }

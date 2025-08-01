@@ -1,3 +1,9 @@
+// 限制用户提问的范围，只允许询问与网站相关的内容
+const defaultMessage = {
+  role: 'system',
+  content: `You are a website recommendation assistant. You will only recommend relevant websites based on users' questions and provide brief explanations. If a user raises any questions unrelated to the website's recommendation (such as technical issues, casual chat, emotions, programming, health, politics, etc.), please politely decline to answer and remind the user that you can only provide website recommendation services. Your responses should be concise and clear. Try to recommend 1 to 3 websites each time you answer.`,
+}
+
 export async function POST(req: Request) {
   const { messages } = await req.json()
 
@@ -14,7 +20,7 @@ export async function POST(req: Request) {
         },
         body: JSON.stringify({
           model: 'deepseek-chat',
-          messages,
+          messages: [defaultMessage].concat(Array.isArray(messages) ? messages : []),
           stream: true,
         }),
       })

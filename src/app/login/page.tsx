@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAsyncEffect } from 'ahooks'
 import { Button, Divider, Form, Input } from 'antd'
 import { AxiosError } from 'axios'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -54,7 +55,7 @@ export default function Login() {
         <section className="ui-login-container mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4">
           <header className="mb-4 space-x-2 text-lg">
             <span style={{ fontFamily: 'Nunito-Medium' }}>wecome to</span>
-            <span className="text-parimary text-4xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
+            <span className="text-parimary text-5xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
           </header>
@@ -99,7 +100,7 @@ export default function Login() {
             </footer>
 
             <footer className="mt-4 text-center">
-              <Button type="link" href="/">
+              <Button type="link" href="/" icon={<ArrowLeft size={14} />}>
                 Back to Home
               </Button>
             </footer>
