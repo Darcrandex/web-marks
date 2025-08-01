@@ -16,9 +16,15 @@ export type MessageItem = {
   content: string
 }
 
+const tipsMessage: MessageItem = {
+  role: RoleType.ASSISTANT,
+  content:
+    'Hi, I can recommend interesting websites for you. Please ask your questions related to website recommendations.',
+}
+
 export default function AsideChat() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<MessageItem[]>([])
+  const [messages, setMessages] = useState<MessageItem[]>([tipsMessage])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -107,7 +113,7 @@ export default function AsideChat() {
 
             <footer className="relative">
               <textarea
-                className="focus:border-parimary focus:ring-parimary block h-40 w-full flex-1 resize-none rounded-md border border-gray-200 px-2 pt-2 pb-8 transition-all outline-none focus:ring-2"
+                className="focus:border-parimary focus:ring-parimary block h-40 w-full flex-1 resize-none rounded-md border border-gray-200 px-2 pt-2 pb-8 text-gray-800 transition-all outline-none focus:ring-2"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
