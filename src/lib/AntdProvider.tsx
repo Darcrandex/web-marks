@@ -5,6 +5,7 @@
  */
 
 'use client'
+import { ThemeConfig } from '@/constant/theme'
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
 import { App as AntdApp, ConfigProvider } from 'antd'
@@ -16,7 +17,7 @@ export default function AntdProvider(props: PropsWithChildren) {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#2dd4bf',
+            colorPrimary: ThemeConfig.primaryColor,
             borderRadius: 2,
           },
         }}

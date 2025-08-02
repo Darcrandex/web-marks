@@ -113,7 +113,7 @@ export default function AsideChat() {
 
             <footer className="relative">
               <textarea
-                className="focus:border-parimary focus:ring-parimary block h-40 w-full flex-1 resize-none rounded-md border border-gray-200 px-2 pt-2 pb-8 text-gray-800 transition-all outline-none focus:ring-2"
+                className="focus:border-primary focus:ring-primary block h-40 w-full flex-1 resize-none rounded-md border border-gray-200 px-2 pt-2 pb-8 text-gray-800 transition-all outline-none focus:ring-2"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
@@ -139,7 +139,7 @@ export default function AsideChat() {
                   'absolute right-2 bottom-2 flex h-8 w-8 items-center justify-center rounded-full',
                   input.trim().length === 0 || isLoading
                     ? 'bg-gray-200 text-gray-50'
-                    : 'bg-parimary cursor-pointer text-white',
+                    : 'bg-primary cursor-pointer text-white',
                 )}
               >
                 <ArrowUp size={16} />
@@ -148,10 +148,10 @@ export default function AsideChat() {
           </motion.div>
         ) : (
           <button
-            className="fixed right-8 bottom-16 z-10 flex cursor-pointer items-center justify-center rounded-full bg-white p-4 shadow-md transition-colors hover:bg-gray-100"
+            className="bg-primary hover:bg-primary/75 fixed right-8 bottom-16 z-10 flex cursor-pointer items-center justify-center rounded-full p-4 shadow-lg transition-colors"
             onClick={() => setIsOpen(true)}
           >
-            <MessagesSquare className="text-parimary" />
+            <MessagesSquare className="text-white" />
           </button>
         )}
       </AnimatePresence>

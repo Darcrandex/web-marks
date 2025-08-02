@@ -96,7 +96,7 @@ export default function ThemeDefault() {
               id="search"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="min-w-80 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 transition-all outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400"
+              className="min-w-80 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 transition-all outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400"
               maxLength={20}
               placeholder="Search..."
               disabled={list.length === 0}

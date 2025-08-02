@@ -3,7 +3,9 @@
 @import 'tailwind-scrollbar-hide/v4';
 
 @theme {
-  --color-parimary: #2dd4bf;
+  /*  */
+  /* primary color teal-500 */
+  --color-primary: #14b8a6;
 }
 
 /* custom fonts */

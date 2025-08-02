@@ -28,7 +28,7 @@ export default async function RootPage() {
             </span>
           </Link>
 
-          <Link href="/login" className="rounded border-2 border-lime-400 px-4 py-1 font-bold !text-lime-400">
+          <Link href="/login" className="rounded border-2 border-teal-400 px-4 py-1 font-bold !text-teal-400">
             Login
           </Link>
         </header>

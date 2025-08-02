@@ -22,7 +22,7 @@ export default function DefGroupsView(props: { data: GroupWithItems[] }) {
         <li key={g.id}>
           <h3 className="my-4 text-center text-3xl font-bold">
             <span
-              className="relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2 after:bg-lime-400"
+              className="relative after:absolute after:bottom-0 after:left-full after:z-0 after:inline-block after:h-2 after:w-2 after:bg-teal-400"
               style={{ fontFamily: 'PermanentMarker-Regular' }}
             >
               {g.name}

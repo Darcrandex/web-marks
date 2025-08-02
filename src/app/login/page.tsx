@@ -55,7 +55,7 @@ export default function Login() {
         <section className="ui-login-container mx-auto my-4 w-sm translate-y-[20vh] rounded-xl bg-white p-4">
           <header className="mb-4 space-x-2 text-lg">
             <span style={{ fontFamily: 'Nunito-Medium' }}>wecome to</span>
-            <span className="text-parimary text-5xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
+            <span className="text-primary text-5xl font-bold" style={{ fontFamily: 'Caveat-Medium' }}>
               Web Marks
             </span>
           </header>

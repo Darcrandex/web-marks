@@ -20,23 +20,20 @@ export async function GET(request: NextRequest) {
   const domainUrl = `https://${hostname}`
   const agent = request.headers.get('User-Agent')
 
-  const response = await axios.get(domainUrl, { headers: { 'User-Agent': agent, Referer: domainUrl } })
+  const response = await axios.get(domainUrl, { headers: { 'User-Agent': agent, Referer: domainUrl }, timeout: 10000 })
   const html = response.data
   const $ = cheerio.load(html)
 
   // 尝试查找 logo 的优先级顺序
   const logoSelectors = [
-    // Apple touch icon
-    'link[rel="apple-touch-icon"]',
-    'link[rel="apple-touch-icon-precomposed"]',
-
     // 标准 favicon
     'link[rel="icon"]',
     'link[rel="shortcut icon"]',
-
+    // Apple touch icon
+    'link[rel="apple-touch-icon"]',
+    'link[rel="apple-touch-icon-precomposed"]',
     // Open Graph 图片
     'meta[property="og:image"]',
-
     // Twitter 卡片图片
     'meta[name="twitter:image"]',
   ]
